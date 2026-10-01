@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For You</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            #8b2638 0%,
+            #5b1727 30%,
+            #320b16 62%,
+            #120308 100%
+        );
+    color: white;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    width: 65vw;
+    height: 65vw;
+    max-width: 800px;
+    max-height: 800px;
+    border-radius: 50%;
+    background: rgba(255, 55, 85, 0.13);
+    filter: blur(80px);
+    top: -25%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: glowMove 7s ease-in-out infinite alternate;
+}
+
+.light-one,
+.light-two {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(45px);
+    opacity: 0.22;
+}
+
+.light-one {
+    width: 280px;
+    height: 280px;
+    background: #b52a45;
+    top: 15%;
+    left: -100px;
+    animation: lightOne 9s ease-in-out infinite alternate;
+}
+
+.light-two {
+    width: 350px;
+    height: 350px;
+    background: #7a1830;
+    bottom: 5%;
+    right: -120px;
+    animation: lightTwo 11s ease-in-out infinite alternate;
+}
+
+.wave {
+    position: absolute;
+    width: 160%;
+    height: 45%;
+    left: -30%;
+    border: 1px solid rgba(255, 150, 165, 0.08);
+    border-radius: 50%;
+    transform: rotate(-7deg);
+}
+
+.wave.one {
+    bottom: -30%;
+    animation: waveMove 12s ease-in-out infinite alternate;
+}
+
+.wave.two {
+    bottom: -42%;
+    animation: waveMove 16s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes glowMove {
+    from {
+        transform: translateX(-50%) scale(0.9);
+        opacity: 0.7;
+    }
+
+    to {
+        transform: translateX(-50%) scale(1.15);
+        opacity: 1;
+    }
+}
+
+@keyframes lightOne {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(160px, 100px);
+    }
+}
+
+@keyframes lightTwo {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(-150px, -100px);
+    }
+}
+
+@keyframes waveMove {
+    from {
+        transform: rotate(-7deg) translateX(-3%);
+    }
+
+    to {
+        transform: rotate(-7deg) translateX(5%);
+    }
+}
+
+/* =========================
+   CASTLE
+========================= */
+
+.castle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(900px, 100vw);
+    height: 230px;
+    opacity: 0.25;
+}
+
+.castle-main {
+    position: absolute;
+    bottom: 0;
+    left: 23%;
+    width: 54%;
+    height: 130px;
+    background: #120308;
+}
+
+.tower {
+    position: absolute;
+    bottom: 0;
+    width: 105px;
+    height: 190px;
+    background: #120308;
+}
+
+.tower-left {
+    left: 8%;
+}
+
+.tower-right {
+    right: 8%;
+}
+
+.tower-top {
+    position: absolute;
+    top: -38px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+    border-bottom: 48px solid #120308;
+}
+
+.flag {
+    position: absolute;
+    top: -65px;
+    left: 50%;
+    width: 3px;
+    height: 35px;
+    background: #120308;
+}
+
+.flag::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0;
+    width: 24px;
+    height: 15px;
+    background: #120308;
+    clip-path: polygon(0 0, 100% 30%, 0 100%);
+}
+
+.window {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 35px;
+    border-radius: 12px 12px 3px 3px;
+    background: #5b1727;
+    box-shadow: 0 0 15px rgba(255, 70, 100, 0.3);
+}
+
+.door {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 55px;
+    height: 90px;
+    background: #0b0206;
+    border-radius: 30px 30px 0 0;
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.page {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.04);
+
+    transition:
+        opacity 0.55s ease,
+        transform 0.55s ease,
+        visibility 0.55s;
+}
+
+.page.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    position: relative;
+
+    width: min(720px, 94vw);
+    max-height: 90vh;
+
+    padding: 45px 40px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(91, 22, 38, 0.97),
+            rgba(29, 5, 12, 0.98)
+        );
+
+    border: 2px solid rgba(255, 150, 165, 0.25);
+    border-radius: 24px;
+
+    box-shadow:
+        0 0 35px rgba(255, 40, 75, 0.16),
+        0 25px 70px rgba(0, 0, 0, 0.5);
+
+    backdrop-filter: blur(12px);
+
+    animation: cardFloat 4s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.small-title {
+    font-family: "Press Start 2P", cursive;
+    font-size: 13px;
+    color: #ffb3bf;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-family: "Press Start 2P", cursive;
+    font-size: clamp(21px, 4vw, 40px);
+    line-height: 1.55;
+    color: white;
+    margin-bottom: 25px;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.message {
+    font-size: clamp(18px, 3vw, 27px);
+    line-height: 1.7;
+    font-weight: 500;
+    color: #fff1f3;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: none;
+    outline: none;
+
+    font-family: "Press Start 2P", cursive;
+    font-size: 13px;
+
+    padding: 17px 24px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #b52a45,
+            #73152d
+        );
+
+    box-shadow:
+        0 7px 0 #3a0a17,
+        0 12px 25px rgba(0, 0, 0, 0.35);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.15);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow:
+        0 3px 0 #3a0a17,
+        0 7px 15px rgba(0, 0, 0, 0.3);
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* =========================
+   ABHISHEK PHOTO
+========================= */
+
+.abhishek-photo {
+    width: min(380px, 75vw);
+    max-height: 45vh;
+
+    object-fit: cover;
+
+    display: block;
+    margin: 0 auto 25px;
+
+    border-radius: 18px;
+
+    border: 3px solid rgba(255, 180, 190, 0.4);
+
+    box-shadow:
+        0 0 25px rgba(255, 40, 75, 0.3),
+        0 20px 40px rgba(0, 0, 0, 0.45);
+
+    animation: photoPop 0.8s ease forwards;
+}
+
+@keyframes photoPop {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.photo-error {
+    display: none;
+
+    padding: 30px;
+
+    border: 2px dashed rgba(255, 150, 165, 0.4);
+    border-radius: 15px;
+
+    color: #ffb3bf;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   NO BUTTON
+========================= */
+
+#noButton {
+    position: relative;
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+.particle {
+    position: fixed;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #ff8fa3;
+
+    pointer-events: none;
+
+    z-index: 50;
+
+    animation: particleFly 1s ease-out forwards;
+}
+
+@keyframes particleFly {
+    from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            )
+            scale(0);
+    }
+}
+
+/* =========================
+   FULL SCREEN FINAL PHOTO
+========================= */
+
+.final-photo-page {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: #120308;
+}
+
+.final-photo-page img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    animation: finalPhotoReveal 1.5s ease forwards;
+}
+
+.final-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    padding-bottom: 10vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 40%,
+            rgba(0, 0, 0, 0.12) 55%,
+            rgba(0, 0, 0, 0.8) 100%
+        );
+}
+
+.final-overlay h1 {
+    font-family: "Press Start 2P", cursive;
+
+    color: white;
+
+    font-size: clamp(20px, 4vw, 42px);
+
+    text-align: center;
+
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.5),
+        0 4px 20px rgba(0, 0, 0, 0.8);
+
+    animation:
+        finalTextReveal 1.5s ease 0.5s forwards;
+
+    opacity: 0;
+
+    margin: 0;
+}
+
+@keyframes finalPhotoReveal {
+    from {
+        opacity: 0;
+        transform: scale(1.08);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes finalTextReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .card {
+        padding: 35px 22px;
+    }
+
+    .small-title {
+        font-size: 10px;
+    }
+
+    .message {
+        font-size: 17px;
+    }
+
+    button {
+        font-size: 10px;
+        padding: 15px 18px;
+    }
+
+    .tower {
+        width: 70px;
+        height: 150px;
+    }
+
+    .tower-top {
+        top: -30px;
+        border-left-width: 35px;
+        border-right-width: 35px;
+        border-bottom-width: 38px;
+    }
+
+    .castle-main {
+        height: 100px;
+    }
+
+    .door {
+        width: 40px;
+        height: 65px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     BACKGROUND
+========================= -->
+
+<div class="background">
+
+    <div class="glow"></div>
+
+    <div class="light-one"></div>
+    <div class="light-two"></div>
+
+    <div class="wave one"></div>
+    <div class="wave two"></div>
+
+    <div class="castle">
+
+        <div class="castle-main"></div>
+
+        <div class="tower tower-left">
+            <div class="tower-top"></div>
+            <div class="flag"></div>
+            <div class="window"></div>
+        </div>
+
+        <div class="tower tower-right">
+            <div class="tower-top"></div>
+            <div class="flag"></div>
+            <div class="window"></div>
+        </div>
+
+        <div class="door"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 1
+========================= -->
+
+<div class="page active" id="page1">
+
+    <div class="card">
+
+        <div class="small-title">
+            LEVEL 1
+        </div>
+
+        <h1>
+            I HAVE SOMETHING TO SAY
+        </h1>
+
+        <button onclick="showPage(2)">
+            ENTER
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 2
+========================= -->
+
+<div class="page" id="page2">
+
+    <div class="card">
+
+        <div class="small-title">
+            LEVEL 2
+        </div>
+
+        <div class="message">
+            i sorry for what happened yest, not gon talk about it but know i lovey u
+        </div>
+
+        <button onclick="showPage(3)">
+            CONTINUE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 3
+========================= -->
+
+<div class="page" id="page3">
+
+    <div class="card">
+
+        <div class="small-title">
+            LEVEL 3
+        </div>
+
+        <div class="message">
+            youre gusa chic so i got abhishek sharma here so that u no more gusa and lovey me
+        </div>
+
+        <button onclick="showPage(4)">
+            SEE WHAT I GOT
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 4
+========================= -->
+
+<div class="page" id="page4">
+
+    <div class="card">
+
+        <div class="small-title">
+            SPECIAL GUEST
+        </div>
+
+        <img
+            src="abhishek.jpg"
+            alt="Abhishek Sharma"
+            class="abhishek-photo"
+            onerror="showPhotoError()"
+        >
+
+        <div class="photo-error" id="photoError">
+            Put the image named abhishek.jpg in the same folder as index.html.
+        </div>
+
+        <div class="message">
+            and abhishek sharma is gayyyy hahah.
+        </div>
+
+        <button onclick="showPage(5)">
+            CONTINUE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 5
+========================= -->
+
+<div class="page" id="page5">
+
+    <div class="card">
+
+        <div class="small-title">
+            LEVEL 5
+        </div>
+
+        <div class="message">
+            and i HOC war winner btw dont forget
+        </div>
+
+        <button onclick="showPage(6)">
+            CONTINUE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAGE 6
+========================= -->
+
+<div class="page" id="page6">
+
+    <div class="card">
+
+        <div class="small-title">
+            FINAL LEVEL
+        </div>
+
+        <div class="message">
+            ok bye happy gandhi jayanthi
+        </div>
+
+        <div class="message">
+            will u forgive me and lovey me?
+        </div>
+
+        <div class="button-row">
+
+            <button onclick="yesClicked()">
+                YES
+            </button>
+
+            <button id="noButton" onclick="moveNoButton()">
+                NO
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FINAL PAGE
+========================= -->
+
+<div class="page" id="page7">
+
+    <div class="final-photo-page">
+
+        <img
+            src="us.jpg"
+            alt="Us"
+        >
+
+        <div class="final-overlay">
+
+            <h1>
+                ok i lovey u bye
+            </h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(number) {
+
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    const nextPage = document.getElementById("page" + number);
+
+    if (nextPage) {
+        nextPage.classList.add("active");
+    }
+
+}
+
+
+/* =========================
+   PHOTO ERROR
+========================= */
+
+function showPhotoError() {
+
+    const image = document.querySelector(".abhishek-photo");
+    const error = document.getElementById("photoError");
+
+    if (image) {
+        image.style.display = "none";
+    }
+
+    if (error) {
+        error.style.display = "block";
+    }
+
+}
+
+
+/* =========================
+   MOVING NO BUTTON
+========================= */
+
+function moveNoButton() {
+
+    const button = document.getElementById("noButton");
+
+    const maxX = Math.min(
+        window.innerWidth - 160,
+        250
+    );
+
+    const maxY = Math.min(
+        window.innerHeight - 100,
+        180
+    );
+
+    const x =
+        Math.random() * (maxX * 2) - maxX;
+
+    const y =
+        Math.random() * (maxY * 2) - maxY;
+
+    button.style.position = "fixed";
+
+    button.style.left =
+        "calc(50% + " + x + "px)";
+
+    button.style.top =
+        "calc(50% + " + y + "px)";
+
+}
+
+
+/* =========================
+   YES BUTTON
+========================= */
+
+function yesClicked() {
+
+    createParticles();
+
+    setTimeout(function() {
+        showPage(7);
+    }, 900);
+
+}
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+function createParticles() {
+
+    for (let i = 0; i < 45; i++) {
+
+        const particle =
+            document.createElement("div");
+
+        particle.className = "particle";
+
+        particle.style.left =
+            "50%";
+
+        particle.style.top =
+            "50%";
+
+        const x =
+            (Math.random() - 0.5) * 700;
+
+        const y =
+            (Math.random() - 0.5) * 700;
+
+        particle.style.setProperty(
+            "--x",
+            x + "px"
+        );
+
+        particle.style.setProperty(
+            "--y",
+            y + "px"
+        );
+
+        document.body.appendChild(particle);
+
+        setTimeout(function() {
+            particle.remove();
+        }, 1100);
+
+    }
+
+}
+
+
+/* =========================
+   KEYBOARD NAVIGATION
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "ArrowRight") {
+
+            const activePage =
+                document.querySelector(".page.active");
+
+            if (!activePage) return;
+
+            const current =
+                parseInt(
+                    activePage.id.replace("page", "")
+                );
+
+            if (current < 6) {
+                showPage(current + 1);
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
